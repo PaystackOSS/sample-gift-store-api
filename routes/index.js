@@ -18,10 +18,10 @@ router.post('/order',orderController.create);
 
 router.get('/order', orderController.fetch);
 
-router.post('/refund',async function(req, res, next){
-  // if(req.user.role !== 'admin'){
-  //   return res.status(401).json({ message: 'Unauthorized.' });
-  // }
+router.post('/refund', authorize, async function(req, res, next){
+  if(req.user.role !== 'admin'){
+    return res.status(401).json({ message: 'Unauthorized.' });
+  }
   return await refundController(req, res, next);
 })
 

@@ -11,7 +11,7 @@ const create = async function (req, res, next) {
     return res.status(400).json({ message: 'Please provide all the required fields.' });
   }
   try {
-    axios.get(`https://api.paystack.co/transaction/verify/${req.body.reference}`, {
+    axios.get(`https://api.paystack.co/transaction/verify/${req.body.reference}`, { //Verify transaction
       headers: {
         Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
       }
@@ -33,7 +33,7 @@ const create = async function (req, res, next) {
           const savedOrder = await order.save();
           res.json({ status: true, message: "Order placed successfully!", order: savedOrder });
         } else {
-          order.status = 'created';
+          order.status = 'abandoned';
           order.amount = response.data.data.amount/100;
           const savedOrder = await order.save();
           res.status(400).json({ status: false, message: 'Transaction failed.', order: savedOrder });

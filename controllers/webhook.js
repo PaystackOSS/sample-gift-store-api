@@ -17,12 +17,12 @@ const webhook = async function (req, res, next) {
                     order.status = 'paid';
                     order.updatedAt = new Date();
                     await order.save();
-                    res.json({ status: true, message: "Order placed successfully!" });
+                    return res.json({ status: true, message: "Order placed successfully!" });
                 } else if (req.body.event === 'refund.processed') {
                     order.status = 'refunded';
                     order.updatedAt = new Date();
                     await order.save();
-                    res.json({ status: true, message: "Order refunded successfully!" });
+                    return res.json({ status: true, message: "Order refunded successfully!" });
                 } else if (req.body.event === 'refund.failed') {
                     order.status = 'paid';
                     order.updatedAt = new Date();
